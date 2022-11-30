@@ -1,10 +1,10 @@
 <script>
 import { store } from './js/store';
-import HelloWorld from './components/HelloWorld.vue';
+import searchBar from './components/searchBar.vue';
 
 export default {
     components: {
-        HelloWorld
+        searchBar
     },
     data() {
         return {
@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-    <HelloWorld/>
+    <searchBar/>
 </template>
 
 <style lang="scss">

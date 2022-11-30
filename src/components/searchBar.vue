@@ -29,7 +29,7 @@ export default {
     }
 }
 </script>
-<!-- onerror="this.onerror=null; this.src='src/css/img/missing-flag.jpg'" alt="" width="24 -->
+
 <template>
     <input type="text" v-model="store.movie" @keyup.enter="search()">
     <button @click="search()">premi</button>

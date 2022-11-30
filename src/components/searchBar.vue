@@ -29,7 +29,7 @@ export default {
     }
 }
 </script>
-
+<!-- onerror="this.onerror=null; this.src='src/css/img/missing-flag.jpg'" alt="" width="24 -->
 <template>
     <input type="text" v-model="store.movie" @keyup.enter="search()">
     <button @click="search()">premi</button>
@@ -37,15 +37,17 @@ export default {
         <h3>{{movie.title}}</h3>
         <li>Titolo originale: {{movie.original_title}}</li>
         <div class="lang">
-            <li>Lingua: </li>
-            <img :src=(flag+this.upperCase(movie.original_language)+png) onerror="this.onerror=null; this.src='src/css/img/missing-flag.jpg'" alt="" width="24">
+            <li>Lingua:</li>
+            <object :data=flag+this.upperCase(movie.original_language)+png type="image/jpeg">
+                <img src="src/css/img/missing-flag.jpg" width="24"/>
+            </object>
         </div>
         <li>Voto: {{movie.vote_average}}</li>
     </ul>
 </template>
 
 <style lang="scss" scoped>
-.lang {
+.lang, .lang img {
     display: flex;
     align-items: center;
 }

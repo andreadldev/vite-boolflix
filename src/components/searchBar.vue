@@ -6,8 +6,10 @@ export default {
     data() {
         return {
             store,
-            flag: "https://www.countryflagicons.com/FLAT/24/",
-            png: '.png'
+            flag: {
+                src: "https://www.countryflagicons.com/FLAT/24/",
+                type: '.png'
+            }
         }
     },
     methods: {
@@ -38,17 +40,26 @@ export default {
         <li>Titolo originale: {{movie.original_title}}</li>
         <div class="lang">
             <li>Lingua:</li>
-            <object :data=flag+this.upperCase(movie.original_language)+png type="image/jpeg">
-                <img src="src/css/img/missing-flag.jpg" width="24"/>
-            </object>
+            <img :src=(flag.src+this.upperCase(movie.original_language)+flag.type) width="24"/>
         </div>
         <li>Voto: {{movie.vote_average}}</li>
     </ul>
 </template>
 
 <style lang="scss" scoped>
-.lang, .lang img {
+.lang {
     display: flex;
     align-items: center;
+}
+
+img:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    height: 16px;
+    width: 22px;
+    background-image: url('src/css/img/missing-flag.jpg');
+    background-size: cover;
+    background-position: 50%;
 }
 </style>

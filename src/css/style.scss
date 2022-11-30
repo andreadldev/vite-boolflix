@@ -1,0 +1,11 @@
+@import './reset.scss';
+@import './typography.scss';
+@import './variables.scss';
+
+body {
+    height: 100vh;
+}
+
+#app {
+    min-height: 100%;
+}

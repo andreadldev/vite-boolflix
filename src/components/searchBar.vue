@@ -38,7 +38,7 @@ export default {
         <li>Titolo originale: {{movie.original_title}}</li>
         <div class="lang">
             <li>Lingua: </li>
-            <img :src=(flag+this.upperCase(movie.original_language)+png) alt="...">
+            <img :src=(flag+this.upperCase(movie.original_language)+png) onerror="this.onerror=null; this.src='src/css/img/missing-flag.jpg'" alt="" width="24">
         </div>
         <li>Voto: {{movie.vote_average}}</li>
     </ul>

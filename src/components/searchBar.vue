@@ -21,12 +21,12 @@ export default {
             }
         )
         },
-        upperCase(data) {
-            if (data == 'en') {
+        upperCase(lang) {
+            if (lang == 'en') {
                 return 'GB'
             }
-            else {
-                return data.toUpperCase();
+            else if (lang) {
+                return lang.toUpperCase();
             }
         },
         mediaType(data) {
@@ -44,19 +44,19 @@ export default {
 <template>
     <input type="text" v-model="store.movie" @keyup.enter="search()">
     <button @click="search()">premi</button>
-    <ul v-if="store.example.results != 0" v-for="movie in store.example.results">
-        <h3>{{movie.title}} {{movie.name}}</h3>
-        <li>{{this.mediaType(movie)}}</li>
-        <li>Titolo originale: {{movie.original_title}} {{movie.original_name}}</li>
-        <div class="lang">
-            <li>Lingua:</li>
-            <img :src=(flag.src+this.upperCase(movie.original_language)+flag.type) width="24"/>
-        </div>
-        <li>Voto: {{movie.vote_average}}</li>
-        <div>
-            <img :src=this.poster+movie.poster_path alt="...">
-        </div>
-    </ul>
+    <div v-if="store.example.results != 0" v-for="movie in store.example.results">
+        <ul v-if="movie.media_type != 'person'">
+            <li><h3>{{movie.title}} {{movie.name}}</h3></li>
+            <li>{{this.mediaType(movie)}}</li>
+            <li>Titolo originale: {{movie.original_title}} {{movie.original_name}}</li>
+            <li class="lang">
+                <span>Lingua:</span>
+                <img :src=(flag.src+this.upperCase(movie.original_language)+flag.type) width="24"/>
+            </li>
+            <li>Voto: {{movie.vote_average}}</li>
+            <li><img :src=this.poster+movie.poster_path alt="..."></li>
+        </ul>
+    </div>
 </template>
 
 <style lang="scss" scoped>

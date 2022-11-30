@@ -9,12 +9,13 @@ export default {
             flag: {
                 src: "https://www.countryflagicons.com/FLAT/24/",
                 type: '.png'
-            }
+            },
+            poster: 'https://image.tmdb.org/t/p/w92/'
         }
     },
     methods: {
         search() {
-            axios.get("https://api.themoviedb.org/3/search/movie?api_key="+store.key+"&language=it"+"&query="+store.movie).then((resp) => {
+            axios.get("https://api.themoviedb.org/3/search/multi?api_key="+store.key+"&language=it"+"&query="+store.movie).then((resp) => {
             store.example = resp.data;
             console.log(store.example.results)
             }
@@ -27,6 +28,14 @@ export default {
             else {
                 return data.toUpperCase();
             }
+        },
+        mediaType(data) {
+            if (data.media_type == 'movie') {
+                return 'Film'
+            }
+            else {
+                return 'Serie TV'
+            }
         }
     }
 }
@@ -36,13 +45,17 @@ export default {
     <input type="text" v-model="store.movie" @keyup.enter="search()">
     <button @click="search()">premi</button>
     <ul v-if="store.example.results != 0" v-for="movie in store.example.results">
-        <h3>{{movie.title}}</h3>
-        <li>Titolo originale: {{movie.original_title}}</li>
+        <h3>{{movie.title}} {{movie.name}}</h3>
+        <li>{{this.mediaType(movie)}}</li>
+        <li>Titolo originale: {{movie.original_title}} {{movie.original_name}}</li>
         <div class="lang">
             <li>Lingua:</li>
             <img :src=(flag.src+this.upperCase(movie.original_language)+flag.type) width="24"/>
         </div>
         <li>Voto: {{movie.vote_average}}</li>
+        <div>
+            <img :src=this.poster+movie.poster_path alt="...">
+        </div>
     </ul>
 </template>
 

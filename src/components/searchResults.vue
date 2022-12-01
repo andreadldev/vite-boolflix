@@ -45,8 +45,6 @@ export default {
 
 <template>
     <section>
-        <!-- <input type="text" v-model="store.inputField" @keyup.enter="search()"> -->
-        <!-- <button @click="search()">premi</button> -->
         <div v-if="store.productList.results != 0" v-for="product in store.productList.results">
             <ul v-if="product.media_type != 'person'">
                 <li><h3>{{product.title}} {{product.name}}</h3></li>

@@ -1,5 +1,4 @@
 <script>
-import axios from "axios";
 import { store } from '../js/store';
 
 export default {
@@ -9,13 +8,6 @@ export default {
         }
     },
     methods: {
-        search() {
-            axios.get("https://api.themoviedb.org/3/search/multi?api_key="+store.key+"&language=it"+"&query="+store.inputField).then((resp) => {
-            store.productList = resp.data;
-            console.log(store.productList.results)
-            }
-        )
-        },
         upperCase(lang) {
             if (lang == 'en') {
                 return 'GB'
@@ -52,27 +44,33 @@ export default {
 </script>
 
 <template>
-    <input type="text" v-model="store.inputField" @keyup.enter="search()">
-    <button @click="search()">premi</button>
-    <div v-if="store.productList.results != 0" v-for="product in store.productList.results">
-        <ul v-if="product.media_type != 'person'">
-            <li><h3>{{product.title}} {{product.name}}</h3></li>
-            <li>{{this.mediaType(product)}}</li>
-            <li>Titolo originale: {{product.original_title}} {{product.original_name}}</li>
-            <li class="lang">
-                <span>Lingua:</span>
-                <img :src=(store.info.flag.src+this.upperCase(product.original_language)+store.info.flag.type) width="24"/>
-            </li>
-            <div>
-                <font-awesome-icon v-for="n in Math.ceil(product.vote_average / 2)" icon="fa-solid fa-star"/>
-                <font-awesome-icon v-for="n in 5 - Math.ceil(product.vote_average / 2)" icon="fa-regular fa-star"/>
-            </div>
-            <li><img :src=store.info.poster+product.poster_path alt="..."></li>
-        </ul>
-    </div>
+    <section>
+        <!-- <input type="text" v-model="store.inputField" @keyup.enter="search()"> -->
+        <!-- <button @click="search()">premi</button> -->
+        <div v-if="store.productList.results != 0" v-for="product in store.productList.results">
+            <ul v-if="product.media_type != 'person'">
+                <li><h3>{{product.title}} {{product.name}}</h3></li>
+                <li>{{this.mediaType(product)}}</li>
+                <li>Titolo originale: {{product.original_title}} {{product.original_name}}</li>
+                <li class="lang">
+                    <span>Lingua:</span>
+                    <img :src=(store.info.flag.src+this.upperCase(product.original_language)+store.info.flag.type) width="24"/>
+                </li>
+                <div>
+                    <font-awesome-icon v-for="n in Math.ceil(product.vote_average / 2)" icon="fa-solid fa-star"/>
+                    <font-awesome-icon v-for="n in 5 - Math.ceil(product.vote_average / 2)" icon="fa-regular fa-star"/>
+                </div>
+                <li><img :src=store.info.poster+product.poster_path alt="..."></li>
+            </ul>
+        </div>
+    </section>
 </template>
 
 <style lang="scss" scoped>
+section {
+    margin-top: 60px;
+}
+
 .lang {
     display: flex;
     align-items: center;

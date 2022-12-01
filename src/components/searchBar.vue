@@ -5,25 +5,35 @@ import { store } from '../js/store';
 export default {
     data() {
         return {
-            store,
-            flag: {
-                src: "https://www.countryflagicons.com/FLAT/24/",
-                type: '.png'
-            },
-            poster: 'https://image.tmdb.org/t/p/w92/'
+            store
         }
     },
     methods: {
         search() {
-            axios.get("https://api.themoviedb.org/3/search/multi?api_key="+store.key+"&language=it"+"&query="+store.movie).then((resp) => {
-            store.example = resp.data;
-            console.log(store.example.results)
+            axios.get("https://api.themoviedb.org/3/search/multi?api_key="+store.key+"&language=it"+"&query="+store.inputField).then((resp) => {
+            store.productList = resp.data;
+            console.log(store.productList.results)
             }
         )
         },
         upperCase(lang) {
             if (lang == 'en') {
                 return 'GB'
+            }
+            else if (lang == 'ko') {
+                return 'KR'
+            }
+            else if (lang == 'da') {
+                return 'DK'
+            }
+            else if (lang == 'ar') {
+                return 'SA'
+            }
+            else if (lang == 'ja') {
+                return 'JP'
+            }
+            else if (lang == 'hi') {
+                return 'IN'
             }
             else if (lang) {
                 return lang.toUpperCase();
@@ -42,19 +52,22 @@ export default {
 </script>
 
 <template>
-    <input type="text" v-model="store.movie" @keyup.enter="search()">
+    <input type="text" v-model="store.inputField" @keyup.enter="search()">
     <button @click="search()">premi</button>
-    <div v-if="store.example.results != 0" v-for="movie in store.example.results">
-        <ul v-if="movie.media_type != 'person'">
-            <li><h3>{{movie.title}} {{movie.name}}</h3></li>
-            <li>{{this.mediaType(movie)}}</li>
-            <li>Titolo originale: {{movie.original_title}} {{movie.original_name}}</li>
+    <div v-if="store.productList.results != 0" v-for="product in store.productList.results">
+        <ul v-if="product.media_type != 'person'">
+            <li><h3>{{product.title}} {{product.name}}</h3></li>
+            <li>{{this.mediaType(product)}}</li>
+            <li>Titolo originale: {{product.original_title}} {{product.original_name}}</li>
             <li class="lang">
                 <span>Lingua:</span>
-                <img :src=(flag.src+this.upperCase(movie.original_language)+flag.type) width="24"/>
+                <img :src=(store.info.flag.src+this.upperCase(product.original_language)+store.info.flag.type) width="24"/>
             </li>
-            <li>Voto: {{movie.vote_average}}</li>
-            <li><img :src=this.poster+movie.poster_path alt="..."></li>
+            <div>
+                <font-awesome-icon v-for="n in Math.ceil(product.vote_average / 2)" icon="fa-solid fa-star"/>
+                <font-awesome-icon v-for="n in 5 - Math.ceil(product.vote_average / 2)" icon="fa-regular fa-star"/>
+            </div>
+            <li><img :src=store.info.poster+product.poster_path alt="..."></li>
         </ul>
     </div>
 </template>
@@ -65,7 +78,7 @@ export default {
     align-items: center;
 }
 
-img:before {
+.lang img:before {
     content: ' ';
     display: block;
     position: absolute;

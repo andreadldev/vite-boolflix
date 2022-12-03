@@ -4,7 +4,8 @@ import { store } from '../js/store';
 export default {
     data() {
         return {
-            store
+            store,
+            scroller: 0
         }
     },
     methods: {
@@ -30,6 +31,22 @@ export default {
             else if (lang) {
                 return lang.toUpperCase();
             }
+        },
+        scrollLeft() {
+            console.log(this.scroller);
+            this.scroller = this.scroller - 1500;
+            event.target.parentElement.scrollTo(this.scroller, 0);
+            if (this.scroller < 0) {
+                this.scroller = 0
+            }
+        },
+        scrollRight() {
+            console.log(this.scroller);
+            this.scroller = this.scroller + 1500;
+            event.target.parentElement.scrollTo(this.scroller, 0);
+            if (this.scroller > 4000) {
+                this.scroller = 4000
+            }
         }
     }
 }
@@ -38,6 +55,8 @@ export default {
     <section>
         <h1 v-if="(store.movieList.results.length > 0)">FILM</h1>
         <div class="row">
+            <div class="prev" @click="scrollLeft()"></div>
+            <div class="next" @click="scrollRight()"></div>
             <div class="card" v-for="movie in store.movieList.results">
                 <ul>
                     <li><img class="poster" :src=store.info.poster+movie.poster_path alt="..."></li>
@@ -57,6 +76,8 @@ export default {
 
         <h1 v-if="(store.tvList.results.length > 0)">SERIE TV</h1>
         <div class="row">
+            <div class="prev"></div>
+            <div class="next"></div>
             <div class="card" v-if="store.tvList.results != 0" v-for="series in store.tvList.results">
                 <ul>
                     <li><img class="poster" :src=store.info.poster+series.poster_path alt="..."></li>
@@ -79,26 +100,33 @@ export default {
 <style lang="scss" scoped>
 section {
     padding-top: 60px;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .row {
+    overflow-x: hidden;
+    width: 100%;
+    // width: 10000px;
+    // white-space: nowrap;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    // justify-content: center;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
 }
-.hide {
-    width: 0;
-    height: 0;
-    opacity: 0;
-}
+
 .card {
     text-align: center;
-    width: calc(100% / 6);
+    margin: 0 5px;
+    // max-height: 500px;
+    // display: inline-block;
+    // width: calc(100% / 6);
 }
 
 .poster {
-    width: calc(100% - 25px);
-    max-height: 400px;
+    max-width: 300px;
 }
 
 .lang {
@@ -115,5 +143,54 @@ section {
     background-image: url('src/css/img/missing-flag.jpg');
     background-size: cover;
     background-position: 50%;
+}
+
+.prev, .next {
+    width: 20px;
+    height: 20px;
+    margin: 10px 0;
+    border-radius: 50%;
+    background: #ccc;
+    position: absolute;
+    cursor: pointer;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+.prev::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 35%;
+    transform: translatey(-50%) rotate(-135deg);
+}
+
+.next::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    display: block;
+    position: absolute;
+    top: 50%;
+    // left: 50%;
+    right: 35%;
+    transform: translatey(-50%) rotate(45deg);
 }
 </style>

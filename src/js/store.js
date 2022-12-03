@@ -11,7 +11,7 @@ export const store = reactive({
             src: "https://www.countryflagicons.com/FLAT/24/",
             type: '.png'
         },
-        poster: 'https://image.tmdb.org/t/p/w300/'
+        poster: 'https://image.tmdb.org/t/p/w500/'
     },
     search() {
         axios.get("https://api.themoviedb.org/3/search/movie?api_key="+store.key+"&language=it"+"&query="+store.inputField).then((resp) => {

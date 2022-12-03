@@ -33,5 +33,6 @@ header {
     right: 0;
     height: 60px;
     padding: 0 30px;
+    z-index: 100;
 }
 </style>

@@ -65,7 +65,7 @@ export default {
             <div class="next" @click="scrollRight()"></div>
             <div class="card" v-for="movie in store.movieList.results">
                 <div class="wrapper" @mouseover="cardBlurIn()" @mouseout="cardBlurOut()">
-                    <img class="poster" :src=store.info.poster+movie.poster_path alt="...">
+                    <img class="poster" :src=store.info.poster+movie.poster_path alt="" onerror="this.src='src/css/img/placeholder.jpg';">
                     <div class="info">
                         <div><h3>{{movie.title}}</h3></div>
                         <div>Titolo originale: {{movie.original_title}}</div>
@@ -88,7 +88,7 @@ export default {
             <div class="next" @click="scrollRight()"></div>
             <div class="card" v-if="store.tvList.results != 0" v-for="series in store.tvList.results">
                 <div class="wrapper" @mouseover="cardBlurIn()" @mouseout="cardBlurOut()">
-                    <img class="poster" :src=store.info.poster+series.poster_path alt="...">
+                    <img class="poster" :src=store.info.poster+series.poster_path alt="" onerror="this.src='src/css/img/placeholder.jpg';">
                     <div class="info">
                         <div><h3>{{series.name}}</h3></div>
                         <div>Titolo originale: {{series.original_name}}</div>
@@ -161,13 +161,25 @@ h1 {
     transition: opacity 0.4s;
     opacity: 0;
 }
+
 .opacity {
     opacity: 1;
 }
+
 .poster {
     max-width: 300px;
     transition: filter 0.3s;
 }
+
+// .poster:before {
+//     content: ' ';
+//     display: block;
+//     position: absolute;
+
+//     background-image: url('src/css/img/placeholder.jpg');
+//     background-size: contain;
+//     background-position: 50%;
+// }
 
 .lang {
     display: flex;

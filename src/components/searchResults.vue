@@ -84,8 +84,8 @@ export default {
 
         <h1 v-if="(store.tvList.results.length > 0)">SERIE TV</h1>
         <div class="row">
-            <div class="prev"></div>
-            <div class="next"></div>
+            <div class="prev" @click="scrollLeft()"></div>
+            <div class="next" @click="scrollRight()"></div>
             <div class="card" v-if="store.tvList.results != 0" v-for="series in store.tvList.results">
                 <div class="wrapper" @mouseover="cardBlurIn()" @mouseout="cardBlurOut()">
                     <img class="poster" :src=store.info.poster+series.poster_path alt="...">
@@ -109,10 +109,16 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+
 section {
-    padding-top: 60px;
+    padding: 0 50px;
+    padding-top: 80px;
     width: 100%;
     overflow-x: hidden;
+}
+
+h1 {
+    padding: 0 10px;
 }
 .filter {
     filter: blur(5px)
